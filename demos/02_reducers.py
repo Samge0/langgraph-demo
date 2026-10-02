@@ -20,18 +20,24 @@ from langgraph.graph import END, START, StateGraph
 from langgraph.graph.message import add_messages
 
 
+def _custom_func(old: str, new: str) -> str:
+    return f"{old},{new}" if old else new
+
+
 class State(TypedDict):
-    # 演示三种合并语义：
+    # 演示4种合并语义：
     plain: str                                    # 1) 默认：整键覆盖
     notes: Annotated[list, operator.add]          # 2) 列表拼接
     messages: Annotated[list, add_messages]       # 3) 消息专用（含按 id 去重）
+    custom_content: Annotated[str, _custom_func]  # 4) 自定义处理
 
 
 def writer_a(state: State) -> dict:
     return {
         "plain": "A 的值（会覆盖任何旧值）",
         "notes": ["A 写了一条 note"],
-        "messages": [{"role": "user", "content": "你好"}],
+        "messages": [{"role": "user", "content": "你好", "id": "1"}],
+        "custom_content": "Hello",
     }
 
 
@@ -39,7 +45,8 @@ def writer_b(state: State) -> dict:
     return {
         "plain": "B 的值（把 A 的覆盖掉了！）",
         "notes": ["B 也写了一条 note"],
-        "messages": [{"role": "assistant", "content": "你好呀，有什么可以帮你？"}],
+        "messages": [{"role": "assistant", "content": "你好呀，有什么可以帮你？", "id": "2"}],
+        "custom_content": "Guys",
     }
 
 
@@ -61,6 +68,7 @@ if __name__ == "__main__":
     print("messages（追加）:")
     for m in result["messages"]:
         print(f"  - {m.type:10s} {m.content}")
+    print("custom_content（自定义处理）:", result["custom_content"])
 
     print(
         "\n要点：\n"

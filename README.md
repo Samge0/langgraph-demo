@@ -1,6 +1,6 @@
 # LangGraph Demo —— 渐进式学习项目
 
-10 个可运行的 demo，从最小图一路讲到多 Agent 与流式输出。
+18 个可运行的 demo，从最小图一路讲到多 Agent、流式输出与生产容错。
 **离线可跑**：本机 LLM 端点（vLLM/Ollama 等）可用时自动用真模型，
 不可用时自动回退到脚本化假模型，输出依然完整、确定。
 
@@ -65,6 +65,14 @@ LOCAL_API_KEY=not-needed                   # 本地部署通常不需要
 | 08 | `08_send_map_reduce.py` | 动态并行 | `Send` API：map-reduce、动态分支 |
 | 09 | `09_subgraphs_multi_agent.py` | 子图/多Agent | 编译好的图当节点挂进父图，supervisor 模式 |
 | 10 | `10_streaming.py` | 流式输出 | `stream()` 的 values/updates/messages 模式 |
+| 11 | `11_command_navigation.py` | Command 导航 | 节点返回 `Command(goto=, update=)`，路由内聚 |
+| 12 | `12_functional_api.py` | 函数式 API | `@task`/`@entrypoint` + 崩溃恢复不重跑 |
+| 13 | `13_structured_output.py` | 结构化输出 | schema 即提示词 + 解析校验纠错环 |
+| 14 | `14_store_long_term_memory.py` | 长期记忆 | BaseStore 跨会话偏好，checkpointer 做不到 |
+| 15 | `15_agentic_rag.py` | Agentic RAG | 检索不相关就改写再检（CRAG 纠错环） |
+| 16 | `16_deep_agent.py` | Deep Agent | todo 计划 + 虚拟文件系统的上下文工程 |
+| 17 | `17_swarm_handoff.py` | Swarm 多Agent | handoff 工具 + 动态 Command 转接 |
+| 18 | `18_retry_resilience.py` | 生产容错 | 节点级 RetryPolicy + GraphRecursionError 兜底 |
 
 ## 知识点文档
 
@@ -89,5 +97,13 @@ langgraph-demo/
 │   ├── 07_human_in_loop.py
 │   ├── 08_send_map_reduce.py
 │   ├── 09_subgraphs_multi_agent.py
-│   └── 10_streaming.py
+│   ├── 10_streaming.py
+│   ├── 11_command_navigation.py
+│   ├── 12_functional_api.py
+│   ├── 13_structured_output.py
+│   ├── 14_store_long_term_memory.py
+│   ├── 15_agentic_rag.py
+│   ├── 16_deep_agent.py
+│   ├── 17_swarm_handoff.py
+│   └── 18_retry_resilience.py
 ```
